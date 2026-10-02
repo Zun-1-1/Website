@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Osmolska</title>
+</head>
+<body>
+  <script>
+    document.body.style.margin = '0';
+  </script>
+
+  <script src="banner.js"></script>
+
+  <script>
+    const img = document.createElement('img');
+    img.src = 'Images/Presentation.png';
+    img.alt = 'Flowers';
+    img.style.display = 'block';
+    img.style.width = '100%';
+
+    const container = document.createElement('div');
+    container.style.position = 'relative';
+    window.keepClearOfBanner(container);
+
+    function makeButton(label, href) {
+      const btn = document.createElement('button');
+      btn.textContent = label;
+      btn.addEventListener('click', () => { window.location.href = href; });
+      btn.style.fontFamily = "'Times New Roman', Times, serif";
+      btn.style.color = 'black';
+      btn.style.backgroundColor = 'rgba(255, 255, 255, 0.7)';
+      btn.style.border = 'none';
+      btn.style.borderRadius = '20px';
+      btn.style.padding = '10px 30px';
+      btn.style.fontSize = '3rem';
+      btn.style.whiteSpace = 'nowrap';
+      btn.style.cursor = 'pointer';
+      return btn;
+    }
+
+    const bottom = document.createElement('div');
+    bottom.style.marginTop = '6cm'; 
+    bottom.style.textAlign = 'center';
+    bottom.style.paddingBottom = '6cm';
+
+    const question = document.createElement('h2');
+    question.textContent = 'Are you here for';
+    question.style.fontFamily = "'Times New Roman', Times, serif";
+    question.style.fontWeight = 'normal';
+    question.style.fontSize = '5rem';
+
+    const buttons = document.createElement('div');
+    buttons.style.position = 'fixed';
+    buttons.style.zIndex = '1';
+    buttons.style.top = 'calc(50% + 5cm)';
+    buttons.style.left = '50%';
+    buttons.style.transform = 'translate(-50%, -50%)';
+    buttons.style.display = 'flex';
+    buttons.style.gap = '4cm';
+
+    buttons.appendChild(makeButton('the Science', 'science.html'));
+
+    const orText = document.createElement('span');
+    orText.textContent = 'or';
+    orText.style.fontFamily = "'Times New Roman', Times, serif";
+    orText.style.color = 'black';
+    orText.style.fontSize = '3rem';
+    orText.style.alignSelf = 'center';
+    buttons.appendChild(orText);
+
+    buttons.appendChild(makeButton('the Art?', 'art.html'));
+    bottom.appendChild(question);
+
+    document.body.appendChild(buttons);
+
+    container.appendChild(img);
+
+    document.body.appendChild(container);
+    document.body.appendChild(bottom);
+  </script>
+</body>
+</html>

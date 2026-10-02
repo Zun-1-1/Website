@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Science</title>
+</head>
+<body>
+  <script>
+    document.body.style.margin = '0';
+    document.documentElement.style.overflowX = 'hidden';
+  </script>
+
+  <script src="banner.js"></script>
+
+  <script>
+  (function () {
+    const SCALE = window.SCALE;
+    const CM = window.CM;
+
+    const cropTop = 3 * CM;
+
+    const videoFrame = document.createElement('div');
+    videoFrame.style.width = '100%';
+    videoFrame.style.overflow = 'hidden';
+    videoFrame.style.position = 'relative';
+    document.body.appendChild(videoFrame);
+
+    const video = document.createElement('video');
+    video.src = 'Images/Video Project 2.mp4';
+    video.autoplay = true;
+    video.muted = true;
+    video.setAttribute('muted', '');
+    video.loop = true;
+    video.playsInline = true;
+    video.style.width = '100%';
+    video.style.height = 'auto';
+    video.style.display = 'block';
+    videoFrame.appendChild(video);
+
+    function cropVideo() {
+      video.style.marginTop = -cropTop + 'px';
+      videoFrame.style.height = Math.max(0, video.offsetHeight - cropTop) + 'px';
+    }
+
+    video.addEventListener('loadedmetadata', cropVideo);
+    cropVideo();
+
+    const caption = document.createElement('div');
+    caption.textContent = 'Climate Scientist';
+    caption.style.position = 'absolute';
+    caption.style.top = '50%';
+    caption.style.left = '50%';
+    caption.style.transform = 'translate(-50%, -50%)';
+    caption.style.width = '100%';
+    caption.style.lineHeight = '1';
+    caption.style.color = 'white';
+    caption.style.fontFamily = "'Times New Roman', Times, serif";
+    caption.style.fontSize = `min(${250 * SCALE}px, 7vw)`;
+    caption.style.fontWeight = 'bold';
+    caption.style.textAlign = 'center';
+    caption.style.whiteSpace = 'nowrap';
+    caption.style.textShadow = '0 0 0.08em rgba(0, 0, 0, 0.55)';
+    caption.style.pointerEvents = 'none';
+    videoFrame.appendChild(caption);
+
+    const videoBadge = document.createElement('div');
+    videoBadge.style.display = 'flex';
+    videoBadge.style.alignItems = 'center';
+    videoBadge.style.marginLeft = `${2 * CM}px`;
+    videoBadge.style.marginTop = `${3 * CM}px`;
+
+    function badgeLink(url) {
+      const a = document.createElement('a');
+      a.href = url;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      a.className = 'paper-link';
+      a.style.display = 'flex';
+      a.style.alignItems = 'center';
+      a.style.textDecoration = 'none';
+      return a;
+    }
+
+    const badgeImg = document.createElement('img');
+    badgeImg.src = 'Images/GitHub_Invertocat_Black.png';
+    badgeImg.alt = 'GitHub';
+    badgeImg.style.height = `${3 * CM}px`;
+    badgeImg.style.width = 'auto';
+    badgeImg.style.display = 'block';
+
+    const githubLink = badgeLink('https://github.com/Zun-1-1');
+    githubLink.appendChild(badgeImg);
+    videoBadge.appendChild(githubLink);
+
+    const badgeText = document.createElement('span');
+    badgeText.textContent = 'Zun-1-1';
+    badgeText.style.marginLeft = `${0.5 * CM}px`;
+    badgeText.style.color = 'black';
+    badgeText.style.fontFamily = "'Arial', Times, serif";
+    badgeText.style.fontSize = `${60 * SCALE}px`;
+    videoBadge.appendChild(badgeText);
+
+    const inbugImg = document.createElement('img');
+    inbugImg.src = 'Images/InBug-Black.png';
+    inbugImg.alt = 'LinkedIn';
+    inbugImg.style.height = `${3 * CM}px`;
+    inbugImg.style.width = 'auto';
+    inbugImg.style.display = 'block';
+
+    const linkedinLink = badgeLink('https://www.linkedin.com/in/weronika-osmolska-680043189/');
+    linkedinLink.style.marginLeft = `${5 * CM}px`;
+    linkedinLink.appendChild(inbugImg);
+    videoBadge.appendChild(linkedinLink);
+
+    const orcidImg = document.createElement('img');
+    orcidImg.src = 'Images/ORCID Logotype.png';
+    orcidImg.alt = 'ORCID';
+    orcidImg.style.height = `${2 * CM}px`;
+    orcidImg.style.width = 'auto';
+    orcidImg.style.display = 'block';
+
+    const orcidLink = badgeLink('https://orcid.org/0000-0001-7288-4966');
+    orcidLink.style.marginLeft = `${5 * CM}px`;
+    orcidLink.appendChild(orcidImg);
+    videoBadge.appendChild(orcidLink);
+
+    const spacer = document.createElement('div');
+    spacer.style.height = `${3 * CM}px`;
+    document.body.appendChild(spacer);
+
+    const count = 3;
+    const images = [];
+    const sections = [];
+    const labels = [];
+    const scrollers = [];
+    const imageFiles = ['Images/egu.png', 'Images/poster.jpg', 'Images/weatherballon.jpeg'];
+
+    const labelsLeft = ['<strong>PhD Student</strong> at the University of Leeds. \n \n <strong>Masters in Physics</strong> from the University of St Andrews', '<strong>Published Papers</strong>', '<strong>Outreach</strong>'];
+    const linkCss = `
+      .paper-link, .paper-link:link, .paper-link:visited,
+      .paper-link:hover, .paper-link:active, .paper-link:focus {
+        color: inherit;
+        font: inherit;
+        text-decoration: none;
+      }
+    `;
+    const paperStyle = document.createElement('style');
+    paperStyle.textContent = linkCss;
+    document.head.appendChild(paperStyle);
+
+    function paper(doi, title) {
+      return `<a class="paper-link" href="https://doi.org/${doi}" target="_blank" rel="noopener noreferrer">${title}</a>`;
+    }
+
+    function link(url, text) {
+      return `<a class="paper-link" href="${url}" target="_blank" rel="noopener noreferrer">${text}</a>`;
+    }
+
+    const labelsRight = ['Title of thesis: <strong>The drivers, trends and dynamics of cold spells in the Northern Hemisphere.</strong>', '<strong>First Author </strong>\n' + paper('10.1029/2026gl122704', 'Drivers of Trends in Northern Hemisphere Cold Spell Characteristics Over 1980\-2025') + ', Geophysical Research Letters, 2026. \n\n ' + paper('10.5194/wcd-6-1221-2025', 'A Methodology for Tracking Cold Spells in Space and Time: Development, Evaluation and Applications') + ', Weather and Climate Dynamics, 2025. \n \n <strong>Other Collaborations</strong> \n' + paper('10.1038/s41567-025-02893-x', 'Emergent exchange-driven giant magnetoelastic coupling in a correlated itinerant ferromagnet') + ', Nature Physics, 2025. \n\n ' + paper('10.1038/s41535-024-00645-3', 'Spin-orbit coupling induced Van Hove singularity in proximity to a Lifshitz transition in Sr4Ru3O10') + ', npj Quantum Materials,2024. \n\n ' + paper('10.1103/PhysRevB.107.045107', 'Nature of quasiparticle interference in three dimensions') + ', Physical Review B, 2023.', 'Written an ' + link('https://theconversation.com/why-winter-cold-spells-are-getting-milder-288038', 'article for The Conversation') + ', which has been read by over 10,000 people. \n \n Worked on a ' + link('https://www.whitestuff.com/life-stuff-style/episode-28?refco=HP_LSSBanner&amp;refse=READ_MORE_CTA', 'cloudspotting campaign with the White Stuff') + '. \n \n Made ' + link('https://lnkd.in/p/eGgarBqF', 'outreach videos with the National Center for Atmospheric Science') + '.'];
+
+    const labelsRightScroll = [false, true, false];
+
+    for (let i = 0; i < count; i++) {
+      const wrapper = document.createElement('div');
+      wrapper.style.position = 'fixed';
+      wrapper.style.top = '50%';
+      wrapper.style.left = '50%';
+      wrapper.style.opacity = '0';
+      wrapper.style.zIndex = '1';
+      wrapper.style.pointerEvents = 'none';
+      wrapper.style.display = 'block';
+
+      const img = document.createElement('img');
+      img.src = imageFiles[i];
+      img.style.aspectRatio = '1 / 1';
+      img.style.objectFit = 'cover';
+      img.style.display = 'block';
+      wrapper.appendChild(img);
+
+      const sideLabels = [];
+      const scrollPanels = [];
+
+      if (labelsLeft[i]) {
+        const label = document.createElement('div');
+        label.innerHTML = labelsLeft[i];
+        label.style.position = 'absolute';
+        label.style.right = `calc(100% + ${3 * CM}px)`;
+        label.style.top = '50%';
+        label.style.transform = 'translate(0, -50%)';
+        label.style.fontFamily = "'Times New Roman', Times, serif";
+        label.style.fontSize = `${32 * SCALE}px`;
+        label.style.color = 'black';
+        label.style.width = `min(${10 * CM}px, calc(100vw - ${2 * CM}px))`;
+        label.style.whiteSpace = 'pre-line';
+        label.style.textAlign = 'left';
+        wrapper.appendChild(label);
+        sideLabels.push(label);
+      }
+
+      if (labelsRight[i]) {
+        const label = document.createElement('div');
+        label.style.position = 'absolute';
+        label.style.left = `calc(100% + ${1 * CM}px)`;
+        label.style.top = '50%';
+        label.style.transform = 'translate(0, -50%)';
+        label.style.fontFamily = "'Times New Roman', Times, serif";
+        label.style.fontSize = `${32 * SCALE}px`;
+        label.style.color = 'black';
+        label.style.width = `min(${15 * CM}px, calc(100vw - ${2 * CM}px))`;
+        label.style.textAlign = 'left';
+        label.style.overflow = 'hidden';
+
+        const inner = document.createElement('div');
+        inner.innerHTML = labelsRight[i];
+        inner.style.whiteSpace = 'pre-line';
+        inner.style.textAlign = 'left';
+        label.appendChild(inner);
+
+        wrapper.appendChild(label);
+        sideLabels.push(label);
+
+        if (labelsRight[i].includes('paper-link')) {
+          label.style.pointerEvents = 'auto';
+        }
+
+        if (labelsRightScroll[i]) {
+          scrollPanels.push({ window: label, content: inner });
+        }
+      }
+
+      document.body.appendChild(wrapper);
+      images.push(wrapper);
+      labels.push(sideLabels);
+      scrollers.push(scrollPanels);
+
+      const section = document.createElement('div');
+      section.style.height = '100vh';
+      document.body.appendChild(section);
+      sections.push(section);
+    }
+
+    document.body.appendChild(videoBadge);
+
+    const badgeSpacer = document.createElement('div');
+    badgeSpacer.style.height = `${5 * CM}px`;
+    document.body.appendChild(badgeSpacer);
+
+    function fade(distance) {
+      if (distance <= CM) return 1;
+      const range = Math.max(1, window.innerHeight * 0.5 - CM);
+      const t = Math.min(1, (distance - CM) / range);
+      return 1 - (t * t * (3 - 2 * t));
+    }
+
+    function update() {
+      const viewportCenter = window.innerHeight / 2;
+      const halfViewport = window.innerHeight * 0.5;
+      const size = 12 * CM;
+
+      images.forEach(wrapper => {
+        wrapper.firstChild.style.width = size + 'px';
+        wrapper.firstChild.style.height = size + 'px';
+      });
+
+      scrollers.forEach(panels => {
+        panels.forEach(panel => {
+          panel.window.style.height = size + 'px';
+        });
+      });
+
+      const overflows = scrollers.map(panels => {
+        let largest = 0;
+        panels.forEach(panel => {
+          largest = Math.max(largest, panel.content.scrollHeight - panel.window.clientHeight);
+        });
+        return Math.max(0, largest);
+      });
+
+      overflows.forEach((overflow, i) => {
+        const holds = scrollers[i].length > 0 && overflow > 0;
+        const wanted = holds ? String(overflow) : 'plain';
+        if (sections[i].dataset.hold === wanted) return;
+        sections[i].dataset.hold = wanted;
+        sections[i].style.height = holds ? window.innerHeight + overflow + 'px' : '100vh';
+      });
+
+      sections.forEach((s, i) => {
+        const rect = s.getBoundingClientRect();
+        const offset = rect.top + rect.height / 2 - viewportCenter;
+        const overflow = overflows[i];
+
+        if (overflow > 0) {
+          const sweep = window.innerHeight + rect.height;
+          const travel = Math.max(0, (sweep - overflow) / 2);
+          const holdStartTop = window.innerHeight - travel;
+          const holdEndTop = holdStartTop - overflow;
+
+          if (rect.top >= holdStartTop) {
+            const d = rect.top - holdStartTop;
+            images[i].style.transform = `translate(-50%, calc(-50% + ${d * 0.5}px))`;
+            images[i].style.opacity = fade(d);
+          } else if (rect.top <= holdEndTop) {
+            const d = holdEndTop - rect.top;
+            images[i].style.transform = `translate(-50%, calc(-50% + ${-d * 0.5}px))`;
+            images[i].style.opacity = fade(d);
+          } else {
+            images[i].style.transform = 'translate(-50%, -50%)';
+            images[i].style.opacity = 1;
+          }
+
+          const progress = Math.min(1, Math.max(0, (holdStartTop - rect.top) / overflow));
+          scrollers[i].forEach(panel => {
+            panel.content.style.transform = `translateY(${-(overflow * progress)}px)`;
+          });
+        } else {
+          images[i].style.transform = `translate(-50%, calc(-50% + ${offset * 0.5}px))`;
+          images[i].style.opacity = fade(Math.abs(offset));
+        }
+
+        labels[i].forEach(label => {
+          label.style.transform = 'translate(0, -50%)';
+          const box = label.getBoundingClientRect();
+          let shift = 0;
+          if (box.left < CM) {
+            shift = CM - box.left;
+          } else if (box.right > window.innerWidth - CM) {
+            shift = window.innerWidth - CM - box.right;
+          }
+          if (shift !== 0) {
+            label.style.transform = `translate(${shift}px, -50%)`;
+          }
+        });
+      });
+    }
+
+    window.addEventListener('scroll', update);
+    window.addEventListener('resize', () => {
+      cropVideo();
+      update();
+    });
+    update();
+  })();
+  </script>
+</body>
+</html>

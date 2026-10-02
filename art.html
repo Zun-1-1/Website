@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Art</title>
+</head>
+<body>
+  <script src="banner.js"></script>
+  <script>
+    document.body.style.margin = '0';
+    document.body.style.backgroundColor = 'white';
+
+    const scene = document.createElement('div');
+    scene.style.position = 'relative';
+    scene.style.display = 'flex';
+    scene.style.alignItems = 'center';
+    scene.style.justifyContent = 'center';
+    scene.style.gap = `${2 * window.CM}px`;
+    scene.style.margin = `${5 * window.CM}px auto ${4 * window.CM} auto`;
+    scene.style.width = 'fit-content';
+
+    const sewing = document.createElement('img');
+    sewing.src = 'Images/sewing.JPG';
+    sewing.style.display = 'block';
+    sewing.style.width = `${30 * window.CM}px`;
+    sewing.style.transform = 'rotate(0deg)';
+    scene.appendChild(sewing);
+
+    const title = document.createElement('div');
+    title.textContent = 'Making sustainable fashion';
+    title.style.color = '#28a428';
+    title.style.fontFamily = "'Times New Roman', Times, serif";
+    title.style.fontSize = `${100 * window.SCALE}px`;
+    title.style.textAlign = 'left';
+    scene.appendChild(title);
+
+    document.body.appendChild(scene);
+
+    const spacer = document.createElement('div');
+    spacer.style.height = `${3 * window.CM}px`;
+    document.body.appendChild(spacer);
+
+    (function () {
+      const SCALE = window.SCALE;
+      const CM = window.CM;
+      const files = ['Images/dress2.png', 'Images/dress1.png', 'Images/dress3.jpg'];
+      const sourceUrl = 'https://www.sciencedirect.com/science/article/pii/S2405844023096123';
+
+      const linkStyle = document.createElement('style');
+      linkStyle.textContent = `
+        .source-link, .source-link:link, .source-link:visited,
+        .source-link:hover, .source-link:active, .source-link:focus {
+          color: inherit;
+          font: inherit;
+          text-decoration: none;
+        }
+      `;
+      document.head.appendChild(linkStyle);
+
+      const source = (text) => `<a class="source-link" href="${sourceUrl}" target="_blank" rel="noopener noreferrer">${text}</a>`;
+
+      const labelsLeft = [source('<strong>Textile production amounts to nearly 10\% of global carbon emissions. </strong>'), '<strong>These clothes are made by me, using local / recycled materials.</strong>', '<strong>Clothes should last more than a month</strong>'];
+      const labelsRight = [ source('Emitting billions of tonnes of CO2 annually'), 'e.g., curtains were used to make this dress', 'Clothes should be valued'];
+
+      const wrappers = [];
+      const sections = [];
+
+      files.forEach((src, i) => {
+        const wrapper = document.createElement('div');
+        wrapper.style.position = 'fixed';
+        wrapper.style.top = '50%';
+        wrapper.style.left = '50%';
+        wrapper.style.opacity = '0';
+        wrapper.style.zIndex = '1';
+        wrapper.style.pointerEvents = 'none';
+
+        const img = document.createElement('img');
+        img.src = src;
+        img.style.aspectRatio = '1 / 1';
+        img.style.objectFit = 'cover';
+        img.style.display = 'block';
+        if (src.includes('dress3')) {
+          img.style.objectPosition = 'center 80%';
+        }
+        wrapper.appendChild(img);
+
+        if (labelsLeft[i]) {
+          const label = document.createElement('div');
+          label.innerHTML = labelsLeft[i];
+          label.style.position = 'absolute';
+          label.style.right = `calc(100% + ${3 * CM}px)`;
+          label.style.top = '50%';
+          label.style.transform = 'translate(0, -50%)';
+          label.style.fontFamily = "'Times New Roman', Times, serif";
+          label.style.fontSize = `${55 * SCALE}px`;
+          label.style.color = '#28a428';
+          label.style.width = `min(${10 * CM}px, calc(100vw - ${2 * CM}px))`;
+          label.style.whiteSpace = 'pre-line';
+          wrapper.appendChild(label);
+          label.style.pointerEvents = 'auto';
+        }
+
+        if (labelsRight[i]) {
+          const label = document.createElement('div');
+          label.innerHTML = labelsRight[i];
+          label.style.position = 'absolute';
+          label.style.left = `calc(100% + ${1 * CM}px)`;
+          label.style.top = '50%';
+          label.style.transform = 'translate(0, -50%)';
+          label.style.fontFamily = "'Times New Roman', Times, serif";
+          label.style.fontSize = `${55 * SCALE}px`;
+          label.style.color = '#28a428';
+          label.style.width = `min(${10 * CM}px, calc(100vw - ${2 * CM}px))`;
+          label.style.whiteSpace = 'pre-line';
+          wrapper.appendChild(label);
+          label.style.pointerEvents = 'auto';
+        }
+
+        document.body.appendChild(wrapper);
+        wrappers.push(wrapper);
+
+        const section = document.createElement('div');
+        section.style.height = '100vh';
+        document.body.appendChild(section);
+        sections.push(section);
+      });
+
+      function fade(distance) {
+        if (distance <= CM) return 1;
+        const range = Math.max(1, window.innerHeight * 0.5 - CM);
+        const t = Math.min(1, (distance - CM) / range);
+        return 1 - (t * t * (3 - 2 * t));
+      }
+
+      function update() {
+        const viewportCenter = window.innerHeight / 2;
+        const size = 20 * CM;
+
+        wrappers.forEach(wrapper => {
+          wrapper.firstChild.style.width = size + 'px';
+          wrapper.firstChild.style.height = size + 'px';
+        });
+
+        sections.forEach((s, i) => {
+          const rect = s.getBoundingClientRect();
+          const offset = rect.top + rect.height / 2 - viewportCenter;
+          wrappers[i].style.transform = `translate(-50%, calc(-50% + ${offset * 0.5}px))`;
+          wrappers[i].style.opacity = fade(Math.abs(offset));
+        });
+      }
+
+      window.addEventListener('scroll', update);
+      window.addEventListener('resize', update);
+      update();
+    })();
+  </script>
+</body>
+</html>
