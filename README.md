@@ -1,2 +1,1 @@
-# osmolska.github.io
-Personal Website
+### Osmolska
