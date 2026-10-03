@@ -13,6 +13,8 @@
   <script src="banner.js"></script>
 
   <script>
+    document.documentElement.style.overflowX = 'hidden';
+
     const img = document.createElement('img');
     img.src = 'Images/Presentation.png';
     img.alt = 'Flowers';
@@ -23,6 +25,8 @@
     container.style.position = 'relative';
     window.keepClearOfBanner(container);
 
+    const buttonsToSize = [];
+
     function makeButton(label, href) {
       const btn = document.createElement('button');
       btn.textContent = label;
@@ -32,10 +36,9 @@
       btn.style.backgroundColor = 'rgba(255, 255, 255, 0.7)';
       btn.style.border = 'none';
       btn.style.borderRadius = '20px';
-      btn.style.padding = '10px 30px';
-      btn.style.fontSize = '3rem';
       btn.style.whiteSpace = 'nowrap';
       btn.style.cursor = 'pointer';
+      buttonsToSize.push(btn);
       return btn;
     }
 
@@ -45,19 +48,22 @@
     bottom.style.paddingBottom = '6cm';
 
     const question = document.createElement('h2');
-    question.textContent = 'Are you here for';
     question.style.fontFamily = "'Times New Roman', Times, serif";
     question.style.fontWeight = 'normal';
-    question.style.fontSize = '5rem';
+    question.style.margin = '0 1cm';
+
+    // inline-block so the span shrink-wraps to the rendered width of the
+    // text (even when the text wraps onto two lines) - that width is what
+    // the button row is matched to.
+    const questionText = document.createElement('span');
+    questionText.style.display = 'inline-block';
+    questionText.textContent = 'Are you here for';
+    question.appendChild(questionText);
 
     const buttons = document.createElement('div');
-    buttons.style.position = 'fixed';
-    buttons.style.zIndex = '1';
-    buttons.style.top = 'calc(50% + 5cm)';
-    buttons.style.left = '50%';
-    buttons.style.transform = 'translate(-50%, -50%)';
+    buttons.style.position = 'static';
     buttons.style.display = 'flex';
-    buttons.style.gap = '4cm';
+    buttons.style.alignItems = 'center';
 
     buttons.appendChild(makeButton('the Science', 'science.html'));
 
@@ -65,14 +71,106 @@
     orText.textContent = 'or';
     orText.style.fontFamily = "'Times New Roman', Times, serif";
     orText.style.color = 'black';
-    orText.style.fontSize = '3rem';
-    orText.style.alignSelf = 'center';
     buttons.appendChild(orText);
+
+    function layoutButtons() {
+      const narrow = window.isNarrow();
+      const CM = window.CM;
+
+      if (buttons.parentElement !== bottom) bottom.appendChild(buttons);
+
+      buttons.style.position = 'static';
+      buttons.style.marginTop = `${2 * CM}px`;
+
+      buttons.style.flexDirection = 'row';
+      buttons.style.justifyContent = 'center';
+      buttons.style.gap = narrow ? `${0.7 * CM}px` : '4cm';
+
+      buttonsToSize.forEach(btn => {
+        btn.style.padding = narrow ? '7px 12px' : '10px 30px';
+        btn.style.fontSize = narrow ? '5.8vw' : '3rem';
+        btn.style.borderRadius = narrow ? '14px' : '20px';
+      });
+
+      orText.style.fontSize = narrow ? '5.8vw' : '3rem';
+      orText.style.color = narrow ? 'white' : 'black';
+      question.style.fontSize = narrow ? '11vw' : '5rem';
+      question.style.fontWeight = narrow ? 'bold' : 'normal';
+      question.style.color = narrow ? 'white' : 'black';
+    }
+
+    function layoutImage() {
+      const narrow = window.isNarrow();
+
+      if (narrow) {
+
+        const reveal = 4 * CM;
+
+        img.style.height = Math.max(160,
+          Math.round(window.viewportHeight() - window.bannerHeight())) + 'px';
+        img.style.objectFit = 'cover';
+        img.style.objectPosition = 'center';
+        img.style.width = `calc(100% + ${10 * CM}px)`;
+        img.style.marginLeft = `-${5 * CM + reveal}px`;
+        img.style.transform = 'none';
+        img.style.transformOrigin = '50% 50%';
+        container.style.overflow = 'hidden';
+      } else {
+        img.style.width = '100%';
+        img.style.height = 'auto';
+        img.style.objectFit = 'fill';
+        img.style.marginLeft = '0px';
+        img.style.transform = 'none';
+        container.style.overflow = 'visible';
+      }
+    }
+
+    function layoutBottom() {
+      if (!window.isNarrow()) {
+        bottom.style.position = 'static';
+        bottom.style.top = 'auto';
+        bottom.style.left = 'auto';
+        bottom.style.width = 'auto';
+        bottom.style.transform = 'none';
+        bottom.style.zIndex = 'auto';
+        bottom.style.marginTop = '6cm';
+        bottom.style.paddingBottom = '6cm';
+        return;
+      }
+
+      bottom.style.position = 'absolute';
+      bottom.style.left = '0px';
+      bottom.style.width = '100%';
+      bottom.style.marginTop = '0px';
+      bottom.style.paddingBottom = '0px';
+      bottom.style.zIndex = '1';
+      bottom.style.transform = 'translateY(-50%)';
+      bottom.style.top = Math.round(
+        container.offsetTop + container.offsetHeight / 2) + 'px';
+    }
 
     buttons.appendChild(makeButton('the Art?', 'art.html'));
     bottom.appendChild(question);
 
-    document.body.appendChild(buttons);
+    window.addEventListener('resize', () => {
+      layoutButtons();
+      layoutImage();
+      layoutBottom();
+    });
+
+    window.addEventListener('load', () => {
+      layoutImage();
+      layoutBottom();
+    });
+
+    img.addEventListener('load', () => {
+      layoutImage();
+      layoutBottom();
+    });
+
+    layoutButtons();
+    layoutImage();
+    layoutBottom();
 
     container.appendChild(img);
 

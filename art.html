@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Art</title>
 </head>
 <body>
@@ -8,29 +10,76 @@
   <script>
     document.body.style.margin = '0';
     document.body.style.backgroundColor = 'white';
+    document.documentElement.style.overflowX = 'hidden';
 
     const scene = document.createElement('div');
     scene.style.position = 'relative';
     scene.style.display = 'flex';
     scene.style.alignItems = 'center';
     scene.style.justifyContent = 'center';
-    scene.style.gap = `${2 * window.CM}px`;
-    scene.style.margin = `${5 * window.CM}px auto ${4 * window.CM} auto`;
     scene.style.width = 'fit-content';
+    scene.style.maxWidth = '100%';
 
     const sewing = document.createElement('img');
     sewing.src = 'Images/sewing.JPG';
     sewing.style.display = 'block';
-    sewing.style.width = `${30 * window.CM}px`;
-    sewing.style.transform = 'rotate(0deg)';
-    scene.appendChild(sewing);
 
     const title = document.createElement('div');
     title.textContent = 'Making sustainable fashion';
-    title.style.color = '#28a428';
+    title.style.color = 'black';
     title.style.fontFamily = "'Times New Roman', Times, serif";
-    title.style.fontSize = `${100 * window.SCALE}px`;
-    title.style.textAlign = 'left';
+
+    function layoutScene() {
+      const narrow = window.isNarrow();
+      const CM = window.CM;
+      const SCALE = window.SCALE;
+
+      if (narrow) {
+        scene.style.flexDirection = 'row';
+        scene.style.gap = '0px';
+        scene.style.width = '100vw';
+        scene.style.maxWidth = '100vw';
+        // Flush with the bottom of the fixed banner: no gap above the picture.
+        scene.style.margin = `${window.bannerHeight()}px 0 ${2 * CM}px 0`;
+
+        sewing.style.width = '100vw';
+
+        title.style.position = 'absolute';
+        title.style.top = '50%';
+        title.style.left = '50%';
+        title.style.width = '100%';
+        title.style.margin = '0px';
+        title.style.transform = 'translate(-50%, 190%)';
+        title.style.whiteSpace = 'pre-line';
+        title.style.textAlign = 'center';
+        title.style.fontSize = `min(${104 * SCALE}px, 10vw)`;
+        title.style.textShadow = 'none';
+      } else {
+        scene.style.flexDirection = 'row';
+        scene.style.gap = `${2 * CM}px`;
+        scene.style.width = 'fit-content';
+        scene.style.maxWidth = '100%';
+        scene.style.width = 'fit-content';
+        scene.style.maxWidth = '100%';
+        // Flush with the bottom of the fixed banner: no gap above the picture.
+        scene.style.margin = `${window.bannerHeight()}px auto ${4 * CM}px auto`;
+
+        sewing.style.width = `${30 * CM}px`;
+
+        title.style.position = 'static';
+        title.style.top = 'auto';
+        title.style.left = 'auto';
+        title.style.width = 'auto';
+        title.style.margin = '0px';
+        title.style.transform = 'none';
+        title.style.whiteSpace = 'normal';
+        title.style.textAlign = 'left';
+        title.style.fontSize = `min(${100 * SCALE}px, 30vw)`;
+        title.style.textShadow = 'none';
+      }
+    }
+
+    scene.appendChild(sewing);
     scene.appendChild(title);
 
     document.body.appendChild(scene);
@@ -58,11 +107,12 @@
 
       const source = (text) => `<a class="source-link" href="${sourceUrl}" target="_blank" rel="noopener noreferrer">${text}</a>`;
 
-      const labelsLeft = [source('<strong>Textile production amounts to nearly 10\% of global carbon emissions. </strong>'), '<strong>These clothes are made by me, using local / recycled materials.</strong>', '<strong>Clothes should last more than a month</strong>'];
-      const labelsRight = [ source('Emitting billions of tonnes of CO2 annually'), 'e.g., curtains were used to make this dress', 'Clothes should be valued'];
+      const labelsLeft = [source('<strong>Textile production amounts to nearly 10\% of global carbon emissions. </strong>'), '<strong>These clothes are made by me, using local / recycled materials.</strong>', '<strong>Clothes should last more than a month.</strong>'];
+      const labelsRight = [ source('Emitting billions of tonnes of CO2 annually.'), 'e.g., curtains were used to make this dress.', 'Clothes should be valued.'];
 
       const wrappers = [];
       const sections = [];
+      const labels = [];
 
       files.forEach((src, i) => {
         const wrapper = document.createElement('div');
@@ -79,77 +129,161 @@
         img.style.objectFit = 'cover';
         img.style.display = 'block';
         if (src.includes('dress3')) {
-          img.style.objectPosition = 'center 80%';
+          img.style.objectPosition = 'center 60%';
         }
         wrapper.appendChild(img);
+
+        const sideLabels = [];
 
         if (labelsLeft[i]) {
           const label = document.createElement('div');
           label.innerHTML = labelsLeft[i];
-          label.style.position = 'absolute';
-          label.style.right = `calc(100% + ${3 * CM}px)`;
-          label.style.top = '50%';
-          label.style.transform = 'translate(0, -50%)';
+          label.dataset.side = 'left';
           label.style.fontFamily = "'Times New Roman', Times, serif";
-          label.style.fontSize = `${55 * SCALE}px`;
-          label.style.color = '#28a428';
-          label.style.width = `min(${10 * CM}px, calc(100vw - ${2 * CM}px))`;
+          label.style.color = 'black';
           label.style.whiteSpace = 'pre-line';
-          wrapper.appendChild(label);
           label.style.pointerEvents = 'auto';
+          wrapper.insertBefore(label, img);
+          sideLabels.push(label);
         }
 
         if (labelsRight[i]) {
           const label = document.createElement('div');
           label.innerHTML = labelsRight[i];
-          label.style.position = 'absolute';
-          label.style.left = `calc(100% + ${1 * CM}px)`;
-          label.style.top = '50%';
-          label.style.transform = 'translate(0, -50%)';
+          label.dataset.side = 'right';
           label.style.fontFamily = "'Times New Roman', Times, serif";
-          label.style.fontSize = `${55 * SCALE}px`;
-          label.style.color = '#28a428';
-          label.style.width = `min(${10 * CM}px, calc(100vw - ${2 * CM}px))`;
+          label.style.color = 'black';
           label.style.whiteSpace = 'pre-line';
-          wrapper.appendChild(label);
           label.style.pointerEvents = 'auto';
+          wrapper.appendChild(label);
+          sideLabels.push(label);
         }
+
+        labels.push(sideLabels);
 
         document.body.appendChild(wrapper);
         wrappers.push(wrapper);
 
         const section = document.createElement('div');
-        section.style.height = '100vh';
+        section.style.height = '50vh';
         document.body.appendChild(section);
         sections.push(section);
       });
 
-      function fade(distance) {
+      let lastNarrow = null;
+
+      function layoutGallery(narrow) {
+        if (narrow === lastNarrow) return;
+        lastNarrow = narrow;
+
+        labels.forEach(sideLabels => {
+          sideLabels.forEach(label => {
+            const right = label.dataset.side === 'right';
+            label.style.left = 'auto';
+            label.style.right = 'auto';
+
+            if (narrow) {
+              label.style.position = 'static';
+              label.style.top = 'auto';
+              label.style.transform = 'none';
+              label.style.width = `calc(100vw - ${2 * CM}px)`;
+              label.style.maxWidth = '26em';
+              label.style.margin = right
+                ? `${0.8 * CM}px auto 0`
+                : `0 auto ${0.8 * CM}px`;
+              label.style.textAlign = 'center';
+              label.style.fontSize = `min(${32 * SCALE}px, 5.4vw)`;
+            } else {
+              label.style.position = 'absolute';
+              label.style.top = '50%';
+              label.style.transform = 'translate(0, -50%)';
+              label.style.margin = '0';
+              label.style.width = `min(${10 * CM}px, calc(100vw - ${2 * CM}px))`;
+              label.style.maxWidth = 'none';
+              label.style.textAlign = 'left';
+              label.style.fontSize = `${32 * SCALE}px`;
+              label.style[right ? 'left' : 'right'] = `calc(100% + ${(right ? 1 : 3) * CM}px)`;
+            }
+          });
+        });
+      }
+
+      function fade(distance, leaving) {
         if (distance <= CM) return 1;
-        const range = Math.max(1, window.innerHeight * 0.5 - CM);
+        const viewportHeight = window.viewportHeight();
+        let reach = viewportHeight * 0.5;
+        if (window.isNarrow()) {
+          reach = leaving ? viewportHeight * 0.35 : viewportHeight * 1.15;
+        }
+        const range = Math.max(1, reach - CM);
         const t = Math.min(1, (distance - CM) / range);
         return 1 - (t * t * (3 - 2 * t));
       }
 
       function update() {
-        const viewportCenter = window.innerHeight / 2;
-        const size = 20 * CM;
+        const viewportCenter = window.viewportHeight() / 2;
+        const narrow = window.isNarrow();
+        layoutGallery(narrow);
+        // Same photo sizing as science.html, so the two galleries match.
+        const size = narrow
+          ? Math.min(12 * CM, window.innerWidth * 0.68, window.viewportHeight() * 0.42)
+          : 12 * CM;
 
         wrappers.forEach(wrapper => {
-          wrapper.firstChild.style.width = size + 'px';
-          wrapper.firstChild.style.height = size + 'px';
+          wrapper.style.width = narrow ? '100%' : '';
+          wrapper.style.left = narrow ? '0' : '50%';
+          const img = wrapper.querySelector('img');
+          img.style.width = size + 'px';
+          img.style.height = size + 'px';
+          img.style.marginLeft = narrow ? 'auto' : '0';
+          img.style.marginRight = narrow ? 'auto' : '0';
+        });
+
+        const viewportHeight = window.viewportHeight();
+        const endGap = 5 * CM;
+        const photoGap = 2 * CM;
+
+        sections.forEach((s, i) => {
+          let height = viewportHeight;
+
+          if (narrow) {
+            // Each wrapper holds the photo plus its labels, and the parallax
+            // below moves a wrapper at half the section's rate, so two
+            // wrappers only ever end up sectionHeight / 2 apart on screen.
+            // Size the section off the measured wrapper so that distance
+            // always clears the wrapper plus photoGap - a fixed multiple of
+            // the viewport lets them overlap once the labels get tall.
+            const wrapperHeight = wrappers[i].getBoundingClientRect().height;
+            height = Math.max(2 * (wrapperHeight + photoGap),
+              viewportHeight * 0.75);
+
+            if (i === sections.length - 1) {
+              // The last photo only has to scroll far enough to come to rest
+              // endGap above the end of the page. Its centre is pulled half
+              // way towards the section's centre, hence the 4x term.
+              height = Math.max(height, viewportHeight * 0.3,
+                2 * wrapperHeight + 4 * endGap - viewportHeight);
+            }
+          }
+
+          s.style.height = height + 'px';
         });
 
         sections.forEach((s, i) => {
           const rect = s.getBoundingClientRect();
           const offset = rect.top + rect.height / 2 - viewportCenter;
-          wrappers[i].style.transform = `translate(-50%, calc(-50% + ${offset * 0.5}px))`;
-          wrappers[i].style.opacity = fade(Math.abs(offset));
+          wrappers[i].style.transform = `translate(${narrow ? 0 : -50}%, calc(-50% + ${offset * 0.5}px))`;
+          wrappers[i].style.opacity = fade(Math.abs(offset), offset < 0);
         });
       }
 
       window.addEventListener('scroll', update);
-      window.addEventListener('resize', update);
+      window.addEventListener('resize', () => {
+        lastNarrow = null;
+        layoutScene();
+        update();
+      });
+      layoutScene();
       update();
     })();
   </script>

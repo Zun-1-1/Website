@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Science</title>
 </head>
 <body>
@@ -16,13 +18,15 @@
     const SCALE = window.SCALE;
     const CM = window.CM;
 
-    const cropTop = 3 * CM;
-
     const videoFrame = document.createElement('div');
     videoFrame.style.width = '100%';
     videoFrame.style.overflow = 'hidden';
     videoFrame.style.position = 'relative';
     document.body.appendChild(videoFrame);
+
+    const leadSpacer = document.createElement('div');
+    leadSpacer.style.height = '0px';
+    document.body.appendChild(leadSpacer);
 
     const video = document.createElement('video');
     video.src = 'Images/Video Project 2.mp4';
@@ -36,9 +40,17 @@
     video.style.display = 'block';
     videoFrame.appendChild(video);
 
+    function cropTop() {
+      return window.isNarrow() ? 0 : 3 * CM;
+    }
+
     function cropVideo() {
-      video.style.marginTop = -cropTop + 'px';
-      videoFrame.style.height = Math.max(0, video.offsetHeight - cropTop) + 'px';
+      const top = cropTop();
+      video.style.marginTop = -top + 'px';
+      videoFrame.style.height = Math.max(0, video.offsetHeight - top) + 'px';
+      videoFrame.style.marginTop = window.isNarrow()
+        ? window.bannerHeight() + 'px'
+        : '0px';
     }
 
     video.addEventListener('loadedmetadata', cropVideo);
@@ -83,6 +95,7 @@
     const badgeImg = document.createElement('img');
     badgeImg.src = 'Images/GitHub_Invertocat_Black.png';
     badgeImg.alt = 'GitHub';
+    badgeImg.dataset.ratio = String(294 / 288);
     badgeImg.style.height = `${3 * CM}px`;
     badgeImg.style.width = 'auto';
     badgeImg.style.display = 'block';
@@ -102,6 +115,7 @@
     const inbugImg = document.createElement('img');
     inbugImg.src = 'Images/InBug-Black.png';
     inbugImg.alt = 'LinkedIn';
+    inbugImg.dataset.ratio = String(840 / 779);
     inbugImg.style.height = `${3 * CM}px`;
     inbugImg.style.width = 'auto';
     inbugImg.style.display = 'block';
@@ -114,6 +128,7 @@
     const orcidImg = document.createElement('img');
     orcidImg.src = 'Images/ORCID Logotype.png';
     orcidImg.alt = 'ORCID';
+    orcidImg.dataset.ratio = String(1000 / 300);
     orcidImg.style.height = `${2 * CM}px`;
     orcidImg.style.width = 'auto';
     orcidImg.style.display = 'block';
@@ -182,37 +197,24 @@
       if (labelsLeft[i]) {
         const label = document.createElement('div');
         label.innerHTML = labelsLeft[i];
-        label.style.position = 'absolute';
-        label.style.right = `calc(100% + ${3 * CM}px)`;
-        label.style.top = '50%';
-        label.style.transform = 'translate(0, -50%)';
+        label.dataset.side = 'left';
         label.style.fontFamily = "'Times New Roman', Times, serif";
-        label.style.fontSize = `${32 * SCALE}px`;
         label.style.color = 'black';
-        label.style.width = `min(${10 * CM}px, calc(100vw - ${2 * CM}px))`;
         label.style.whiteSpace = 'pre-line';
-        label.style.textAlign = 'left';
         wrapper.appendChild(label);
         sideLabels.push(label);
       }
 
       if (labelsRight[i]) {
         const label = document.createElement('div');
-        label.style.position = 'absolute';
-        label.style.left = `calc(100% + ${1 * CM}px)`;
-        label.style.top = '50%';
-        label.style.transform = 'translate(0, -50%)';
+        label.dataset.side = 'right';
         label.style.fontFamily = "'Times New Roman', Times, serif";
-        label.style.fontSize = `${32 * SCALE}px`;
         label.style.color = 'black';
-        label.style.width = `min(${15 * CM}px, calc(100vw - ${2 * CM}px))`;
-        label.style.textAlign = 'left';
         label.style.overflow = 'hidden';
 
         const inner = document.createElement('div');
         inner.innerHTML = labelsRight[i];
         inner.style.whiteSpace = 'pre-line';
-        inner.style.textAlign = 'left';
         label.appendChild(inner);
 
         wrapper.appendChild(label);
@@ -244,17 +246,117 @@
     badgeSpacer.style.height = `${5 * CM}px`;
     document.body.appendChild(badgeSpacer);
 
-    function fade(distance) {
+    function fade(distance, leaving) {
       if (distance <= CM) return 1;
-      const range = Math.max(1, window.innerHeight * 0.5 - CM);
+      const viewportHeight = window.viewportHeight();
+      let reach = viewportHeight * 0.5;
+      if (window.isNarrow()) {
+        reach = leaving ? viewportHeight * 0.35 : viewportHeight * 1.15;
+      }
+      const range = Math.max(1, reach - CM);
       const t = Math.min(1, (distance - CM) / range);
       return 1 - (t * t * (3 - 2 * t));
     }
 
+    let lastNarrow = null;
+
+    function layout(narrow) {
+      if (narrow === lastNarrow) return;
+      lastNarrow = narrow;
+
+      images.forEach(wrapper => {
+        wrapper.style.width = narrow ? '100%' : '';
+        wrapper.style.left = narrow ? '0' : '50%';
+        const img = wrapper.firstChild;
+        img.style.marginLeft = narrow ? 'auto' : '0';
+        img.style.marginRight = narrow ? 'auto' : '0';
+      });
+
+      labels.forEach(sideLabels => {
+        sideLabels.forEach(label => {
+          const right = label.dataset.side === 'right';
+          label.style.left = 'auto';
+          label.style.right = 'auto';
+
+          if (narrow) {
+            label.style.position = 'static';
+            label.style.top = 'auto';
+            label.style.transform = 'none';
+            label.style.width = `calc(100vw - ${2 * CM}px)`;
+            label.style.maxWidth = '32em';
+            label.style.margin = `${1.2 * CM}px auto 0`;
+            label.style.textAlign = 'center';
+            label.style.fontSize = `min(${32 * SCALE}px, 5vw)`;
+          } else {
+            label.style.position = 'absolute';
+            label.style.top = '50%';
+            label.style.transform = 'translate(0, -50%)';
+            label.style.margin = '0';
+            label.style.width = `min(${(right ? 15 : 10) * CM}px, calc(100vw - ${2 * CM}px))`;
+            label.style.maxWidth = 'none';
+            label.style.textAlign = 'left';
+            label.style.fontSize = `${32 * SCALE}px`;
+            label.style[right ? 'left' : 'right'] = `calc(100% + ${(right ? 1 : 3) * CM}px)`;
+          }
+
+          const inner = label.firstElementChild;
+          if (inner) inner.style.textAlign = label.style.textAlign;
+        });
+      });
+
+      const vw = window.innerWidth;
+      const logoHeight = narrow ? Math.min(1.1 * CM, vw * 0.045) : 3 * CM;
+      const badgeGap = narrow ? Math.min(0.8 * CM, vw * 0.05) : 5 * CM;
+      const badgePad = narrow ? Math.min(1 * CM, vw * 0.05) : 2 * CM;
+      const orcidHeight = narrow ? logoHeight : 2 * CM;
+
+      function sizeLogo(img, height) {
+        img.style.height = `${height}px`;
+        img.style.width = narrow
+          ? `${height * Number(img.dataset.ratio)}px`
+          : 'auto';
+      }
+
+      leadSpacer.style.height = narrow ? `${5 * CM}px` : '0px';
+
+      videoBadge.style.marginTop = narrow ? `${6 * CM}px` : `${3 * CM}px`;
+      badgeSpacer.style.height = narrow ? `${1.5 * CM}px` : `${5 * CM}px`;
+      videoBadge.style.flexWrap = 'nowrap';
+      videoBadge.style.marginLeft = `${badgePad}px`;
+      videoBadge.style.marginRight = `${badgePad}px`;
+      badgeText.style.marginLeft = narrow ? `${0.3 * CM}px` : `${0.5 * CM}px`;
+      badgeText.style.fontSize = narrow
+        ? `min(${29 * SCALE}px, ${vw * 0.052}px)`
+        : `${60 * SCALE}px`;
+      sizeLogo(badgeImg, logoHeight);
+      sizeLogo(inbugImg, logoHeight);
+      sizeLogo(orcidImg, orcidHeight);
+      linkedinLink.style.marginLeft = `${badgeGap}px`;
+      orcidLink.style.marginLeft = `${badgeGap}px`;
+      caption.style.fontSize = `min(${250 * SCALE}px, ${narrow ? 8 : 7}vw)`;
+
+      if (video.dataset.fit !== (narrow ? 'phone' : 'wide')) {
+        video.dataset.fit = narrow ? 'phone' : 'wide';
+        video.style.width = narrow ? 'auto' : '100%';
+        video.style.maxWidth = narrow ? '100%' : 'none';
+        video.style.maxHeight = narrow ? '80vh' : 'none';
+        video.style.marginLeft = 'auto';
+        video.style.marginRight = 'auto';
+        cropVideo();
+      }
+    }
+
     function update() {
-      const viewportCenter = window.innerHeight / 2;
-      const halfViewport = window.innerHeight * 0.5;
-      const size = 12 * CM;
+      const viewportHeight = window.viewportHeight();
+      const viewportCenter = viewportHeight / 2;
+      const narrow = window.isNarrow();
+      layout(narrow);
+      const size = narrow
+        ? Math.min(12 * CM, window.innerWidth * 0.68, viewportHeight * 0.42)
+        : 12 * CM;
+      const panelHeight = narrow
+        ? Math.max(size, viewportHeight * 0.9 - size - 50)
+        : size;
 
       images.forEach(wrapper => {
         wrapper.firstChild.style.width = size + 'px';
@@ -263,7 +365,7 @@
 
       scrollers.forEach(panels => {
         panels.forEach(panel => {
-          panel.window.style.height = size + 'px';
+          panel.window.style.height = panelHeight + 'px';
         });
       });
 
@@ -275,13 +377,29 @@
         return Math.max(0, largest);
       });
 
+      const plainHeight = narrow
+        ? Math.round(viewportHeight * 1.25)
+        : viewportHeight;
+      const readFactor = narrow ? 4 : 1;
+
+      const shiftX = narrow ? 0 : -50;
+
       overflows.forEach((overflow, i) => {
         const holds = scrollers[i].length > 0 && overflow > 0;
-        const wanted = holds ? String(overflow) : 'plain';
+        const scrollDistance = holds ? overflow * readFactor : 0;
+        const wanted = holds
+          ? viewportHeight + '+' + scrollDistance
+          : 'plain+' + plainHeight;
         if (sections[i].dataset.hold === wanted) return;
         sections[i].dataset.hold = wanted;
-        sections[i].style.height = holds ? window.innerHeight + overflow + 'px' : '100vh';
+        sections[i].style.height = holds
+          ? viewportHeight + scrollDistance + 'px'
+          : plainHeight + 'px';
       });
+
+      const videoClear = narrow
+        ? videoFrame.getBoundingClientRect().bottom
+        : -Infinity;
 
       sections.forEach((s, i) => {
         const rect = s.getBoundingClientRect();
@@ -289,32 +407,39 @@
         const overflow = overflows[i];
 
         if (overflow > 0) {
-          const sweep = window.innerHeight + rect.height;
-          const travel = Math.max(0, (sweep - overflow) / 2);
-          const holdStartTop = window.innerHeight - travel;
-          const holdEndTop = holdStartTop - overflow;
+          const scrollDistance = overflow * readFactor;
+          const sweep = viewportHeight + rect.height;
+          const travel = Math.max(0, (sweep - scrollDistance) / 2);
+          const holdStartTop = viewportHeight - travel;
+          const holdEndTop = holdStartTop - scrollDistance;
 
           if (rect.top >= holdStartTop) {
             const d = rect.top - holdStartTop;
-            images[i].style.transform = `translate(-50%, calc(-50% + ${d * 0.5}px))`;
-            images[i].style.opacity = fade(d);
+            images[i].style.transform = `translate(${shiftX}%, calc(-50% + ${d * 0.5}px))`;
+            images[i].style.opacity = fade(d, false);
           } else if (rect.top <= holdEndTop) {
             const d = holdEndTop - rect.top;
-            images[i].style.transform = `translate(-50%, calc(-50% + ${-d * 0.5}px))`;
-            images[i].style.opacity = fade(d);
+            images[i].style.transform = `translate(${shiftX}%, calc(-50% + ${-d * 0.5}px))`;
+            images[i].style.opacity = fade(d, true);
           } else {
-            images[i].style.transform = 'translate(-50%, -50%)';
+            images[i].style.transform = `translate(${shiftX}%, -50%)`;
             images[i].style.opacity = 1;
           }
 
-          const progress = Math.min(1, Math.max(0, (holdStartTop - rect.top) / overflow));
+          const progress = Math.min(1, Math.max(0, (holdStartTop - rect.top) / scrollDistance));
           scrollers[i].forEach(panel => {
             panel.content.style.transform = `translateY(${-(overflow * progress)}px)`;
           });
         } else {
-          images[i].style.transform = `translate(-50%, calc(-50% + ${offset * 0.5}px))`;
-          images[i].style.opacity = fade(Math.abs(offset));
+          images[i].style.transform = `translate(${shiftX}%, calc(-50% + ${offset * 0.5}px))`;
+          images[i].style.opacity = fade(Math.abs(offset), offset < 0);
         }
+
+        if (i === 0 && videoClear > -5 * CM) {
+          images[i].style.opacity = '0';
+        }
+
+        if (narrow) return;
 
         labels[i].forEach(label => {
           label.style.transform = 'translate(0, -50%)';
@@ -334,6 +459,7 @@
 
     window.addEventListener('scroll', update);
     window.addEventListener('resize', () => {
+      lastNarrow = null;
       cropVideo();
       update();
     });
