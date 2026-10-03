@@ -1,470 +1,252 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Science</title>
+  <title>Osmolska - Science</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+
+    .plain-link:not(.badges__link) {
+      text-decoration: underline;
+    }
+
+    .badges__link {
+      text-decoration: none;
+    }
+
+    .video {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .video__el {
+      width: 100%;
+      margin-top: calc(-3 * var(--cm));
+    }
+
+    .video__caption {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100%;
+      font-size: min(calc(250 * var(--px)), 7vw);
+      font-weight: bold;
+      line-height: 1;
+      color: #fff;
+      text-align: center;
+      white-space: nowrap;
+      text-shadow: 0 0 0.08em rgba(0, 0, 0, 0.55);
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+    }
+
+    .badges {
+      display: flex;
+      align-items: center;
+      flex-wrap: nowrap;
+      margin: calc(3 * var(--cm)) calc(2 * var(--cm)) 0;
+    }
+
+    .badges__link {
+      display: flex;
+      align-items: center;
+    }
+
+    .badges__logo {
+      width: auto;
+      height: calc(3 * var(--cm));
+    }
+
+    .badges__logo--orcid {
+      height: calc(2 * var(--cm));
+    }
+
+    .badges__handle {
+      margin-left: calc(0.5 * var(--cm));
+      font-family: Arial, Times, serif;
+      font-size: calc(60 * var(--px));
+    }
+
+    .badges__gap {
+      margin-left: calc(5 * var(--cm));
+    }
+
+    .badges__spacer {
+      height: calc(5 * var(--cm));
+    }
+
+
+    .gallery {
+      margin-top: calc(3 * var(--cm));
+      --label-w-right: calc(15 * var(--cm));
+      --label-font-narrow: 5vw;
+      --label-max-narrow: 32em;
+      --label-margin-left: calc(1.2 * var(--cm)) auto 0;
+      --label-margin-right: calc(1.2 * var(--cm)) auto 0;
+    }
+
+    .gallery__label {
+      color: #000;
+    }
+
+
+    .gallery__label--above,
+    .gallery__label--below {
+      right: calc(100% + var(--label-gap-left));
+      width: min(var(--label-w-left), calc(100vw - 2 * var(--cm)));
+      /* Anchored to an edge, so no -50% centring shift. */
+      transform: translateX(var(--label-shift));
+    }
+
+    .gallery__label--above {
+      top: auto;
+      bottom: 50%;
+      padding-bottom: 0.75em;
+    }
+
+    .gallery__label--below {
+      top: 50%;
+    }
+
+    @media (max-width: 700px), (max-height: 520px) {
+      .video__el {
+        max-height: 80vh;
+        object-fit: cover;
+        margin-top: 0;
+      }
+
+      .video__caption {
+        font-size: min(calc(250 * var(--px)), 8vw);
+      }
+
+      .gallery__label--above,
+      .gallery__label--below {
+        right: auto;
+        top: auto;
+        bottom: auto;
+        padding-bottom: 0;
+        width: calc(100vw - 2 * var(--cm));
+        max-width: var(--label-max-narrow);
+        font-size: min(calc(32 * var(--px)), var(--label-font-narrow));
+        text-align: center;
+        margin: var(--label-margin-right);
+      }
+
+      .badges {
+        margin: calc(0.1* var(--cm)) min(calc(1 * var(--cm)), 5vw) 0;
+      }
+
+      .badges__logo,
+      .badges__logo--orcid {
+        height: min(calc(1.1 * var(--cm)), 4.5vw);
+      }
+
+      .badges__gap {
+        margin-left: min(calc(0.8 * var(--cm)), 5vw);
+      }
+
+      .badges__handle {
+        margin-left: calc(0.3 * var(--cm));
+        font-size: min(calc(29 * var(--px)), 5.2vw);
+      }
+
+      .badges__spacer {
+        height: calc(1 * var(--cm));
+      }
+    }
+  </style>
 </head>
 <body>
+  <header class="banner">
+    <a class="banner__title" href="index.html">Osmolska</a>
+  </header>
+
+  <main>
+    <section class="video">
+      <video class="video__el" src="Images/Video Project 2.mp4"
+             autoplay muted loop playsinline></video>
+      <div class="video__caption">Climate Scientist</div>
+    </section>
+
+    <div class="gallery gallery--flow">
+      <div class="gallery__item">
+        <img class="gallery__photo" src="Images/egu.png" alt="EGU General Assembly 2024">
+        <div class="gallery__label gallery__label--above"><strong>PhD Student</strong> at the University of Leeds.</div>
+        <div class="gallery__label gallery__label--right">Title of thesis: <strong>The drivers, trends and dynamics of cold spells in the Northern Hemisphere.</strong></div>
+        <div class="gallery__label gallery__label--below"><strong>Masters in Physics</strong> from the University of St Andrews</div>
+      </div>
+      <div class="gallery__track"></div>
+
+      <div class="gallery__item">
+        <img class="gallery__photo" src="Images/poster.jpg" alt="Research poster on cold spells">
+        <div class="gallery__label gallery__label--left"><strong>Published Papers</strong></div>
+        <div class="gallery__label gallery__label--right"><div class="gallery__panel"><strong>First Author </strong>
+Osmolska, W., Maycock, A. C., & Chemel, C. <a class="plain-link" href="https://doi.org/10.1029/2026gl122704" target="_blank" rel="noopener noreferrer">Drivers of Trends in Northern Hemisphere Cold Spell Characteristics Over 1980-2025</a>, Geophysical Research Letters, 2026.
+
+Osmolska, W., Chemel, C., & Maycock, A. C. <a class="plain-link" href="https://doi.org/10.5194/wcd-6-1221-2025" target="_blank" rel="noopener noreferrer">A Methodology for Tracking Cold Spells in Space and Time: Development, Evaluation and Applications</a>, Weather and Climate Dynamics, 2025.
+
+<strong>Other Collaborations</strong>
+Marques, C.A., Rhodes, L.C., Osmolska, W. et al. <a class="plain-link" href="https://doi.org/10.1038/s41567-025-02893-x" target="_blank" rel="noopener noreferrer">Emergent exchange-driven giant magnetoelastic coupling in a correlated itinerant ferromagnet</a>, Nature Physics, 2025.
+
+Marques, C.A., Murgatroyd, P.A.E., Fittipaldi, R. et al. <a class="plain-link" href="https://doi.org/10.1038/s41535-024-00645-3" target="_blank" rel="noopener noreferrer">Spin-orbit coupling induced Van Hove singularity in proximity to a Lifshitz transition in Sr4Ru3O10</a>, npj Quantum Materials, 2024.
+
+Rhodes, C.L., Osmolska, W., Marques, C.A. & Wahl, P. <a class="plain-link" href="https://doi.org/10.1103/PhysRevB.107.045107" target="_blank" rel="noopener noreferrer">Nature of quasiparticle interference in three dimensions</a>, Physical Review B, 2023.</div>
+        </div>
+      </div>
+      <div class="gallery__track"></div>
+
+      <div class="gallery__item">
+        <img class="gallery__photo" src="Images/weatherballon.jpeg" alt="A weather balloon being launched">
+        <div class="gallery__label gallery__label--left"><strong>Outreach</strong></div>
+        <div class="gallery__label gallery__label--right">Written an <a class="plain-link" href="https://theconversation.com/why-winter-cold-spells-are-getting-milder-288038" target="_blank" rel="noopener noreferrer">article for The Conversation</a>, which has been read by over 10,000 people.
+
+Worked on a <a class="plain-link" href="https://www.whitestuff.com/life-stuff-style/episode-28?refco=HP_LSSBanner&amp;refse=READ_MORE_CTA" target="_blank" rel="noopener noreferrer">cloudspotting campaign with the White Stuff</a>.
+
+Made <a class="plain-link" href="https://lnkd.in/p/eGgarBqF" target="_blank" rel="noopener noreferrer">outreach videos with the National Center for Atmospheric Science</a>.</div>
+      </div>
+      <div class="gallery__track"></div>
+    </div>
+
+    <div class="badges">
+      <a class="plain-link badges__link" href="https://github.com/Zun-1-1" target="_blank" rel="noopener noreferrer">
+        <img class="badges__logo" src="Images/GitHub_Invertocat_Black.png" alt="GitHub">
+      </a>
+      <span class="badges__handle">Zun-1-1</span>
+      <a class="plain-link badges__link badges__gap" href="https://www.linkedin.com/in/weronika-osmolska-680043189/" target="_blank" rel="noopener noreferrer">
+        <img class="badges__logo" src="Images/InBug-Black.png" alt="LinkedIn">
+      </a>
+      <a class="plain-link badges__link badges__gap" href="https://orcid.org/0000-0001-7288-4966" target="_blank" rel="noopener noreferrer">
+        <img class="badges__logo badges__logo--orcid" src="Images/ORCID Logotype.png" alt="ORCID">
+      </a>
+    </div>
+    <div class="badges__spacer"></div>
+  </main>
+
+  <script src="gallery.js"></script>
   <script>
-    document.body.style.margin = '0';
-    document.documentElement.style.overflowX = 'hidden';
-  </script>
+    (function () {
 
-  <script src="banner.js"></script>
+      const frame = document.querySelector('.video');
+      const video = document.querySelector('.video__el');
 
-  <script>
-  (function () {
-    const SCALE = window.SCALE;
-    const CM = window.CM;
+      function cropVideo() {
 
-    const videoFrame = document.createElement('div');
-    videoFrame.style.width = '100%';
-    videoFrame.style.overflow = 'hidden';
-    videoFrame.style.position = 'relative';
-    document.body.appendChild(videoFrame);
-
-    const leadSpacer = document.createElement('div');
-    leadSpacer.style.height = '0px';
-    document.body.appendChild(leadSpacer);
-
-    const video = document.createElement('video');
-    video.src = 'Images/Video Project 2.mp4';
-    video.autoplay = true;
-    video.muted = true;
-    video.setAttribute('muted', '');
-    video.loop = true;
-    video.playsInline = true;
-    video.style.width = '100%';
-    video.style.height = 'auto';
-    video.style.display = 'block';
-    videoFrame.appendChild(video);
-
-    function cropTop() {
-      return window.isNarrow() ? 0 : 3 * CM;
-    }
-
-    function cropVideo() {
-      const top = cropTop();
-      video.style.marginTop = -top + 'px';
-      videoFrame.style.height = Math.max(0, video.offsetHeight - top) + 'px';
-      videoFrame.style.marginTop = window.isNarrow()
-        ? window.bannerHeight() + 'px'
-        : '0px';
-    }
-
-    video.addEventListener('loadedmetadata', cropVideo);
-    cropVideo();
-
-    const caption = document.createElement('div');
-    caption.textContent = 'Climate Scientist';
-    caption.style.position = 'absolute';
-    caption.style.top = '50%';
-    caption.style.left = '50%';
-    caption.style.transform = 'translate(-50%, -50%)';
-    caption.style.width = '100%';
-    caption.style.lineHeight = '1';
-    caption.style.color = 'white';
-    caption.style.fontFamily = "'Times New Roman', Times, serif";
-    caption.style.fontSize = `min(${250 * SCALE}px, 7vw)`;
-    caption.style.fontWeight = 'bold';
-    caption.style.textAlign = 'center';
-    caption.style.whiteSpace = 'nowrap';
-    caption.style.textShadow = '0 0 0.08em rgba(0, 0, 0, 0.55)';
-    caption.style.pointerEvents = 'none';
-    videoFrame.appendChild(caption);
-
-    const videoBadge = document.createElement('div');
-    videoBadge.style.display = 'flex';
-    videoBadge.style.alignItems = 'center';
-    videoBadge.style.marginLeft = `${2 * CM}px`;
-    videoBadge.style.marginTop = `${3 * CM}px`;
-
-    function badgeLink(url) {
-      const a = document.createElement('a');
-      a.href = url;
-      a.target = '_blank';
-      a.rel = 'noopener noreferrer';
-      a.className = 'paper-link';
-      a.style.display = 'flex';
-      a.style.alignItems = 'center';
-      a.style.textDecoration = 'none';
-      return a;
-    }
-
-    const badgeImg = document.createElement('img');
-    badgeImg.src = 'Images/GitHub_Invertocat_Black.png';
-    badgeImg.alt = 'GitHub';
-    badgeImg.dataset.ratio = String(294 / 288);
-    badgeImg.style.height = `${3 * CM}px`;
-    badgeImg.style.width = 'auto';
-    badgeImg.style.display = 'block';
-
-    const githubLink = badgeLink('https://github.com/Zun-1-1');
-    githubLink.appendChild(badgeImg);
-    videoBadge.appendChild(githubLink);
-
-    const badgeText = document.createElement('span');
-    badgeText.textContent = 'Zun-1-1';
-    badgeText.style.marginLeft = `${0.5 * CM}px`;
-    badgeText.style.color = 'black';
-    badgeText.style.fontFamily = "'Arial', Times, serif";
-    badgeText.style.fontSize = `${60 * SCALE}px`;
-    videoBadge.appendChild(badgeText);
-
-    const inbugImg = document.createElement('img');
-    inbugImg.src = 'Images/InBug-Black.png';
-    inbugImg.alt = 'LinkedIn';
-    inbugImg.dataset.ratio = String(840 / 779);
-    inbugImg.style.height = `${3 * CM}px`;
-    inbugImg.style.width = 'auto';
-    inbugImg.style.display = 'block';
-
-    const linkedinLink = badgeLink('https://www.linkedin.com/in/weronika-osmolska-680043189/');
-    linkedinLink.style.marginLeft = `${5 * CM}px`;
-    linkedinLink.appendChild(inbugImg);
-    videoBadge.appendChild(linkedinLink);
-
-    const orcidImg = document.createElement('img');
-    orcidImg.src = 'Images/ORCID Logotype.png';
-    orcidImg.alt = 'ORCID';
-    orcidImg.dataset.ratio = String(1000 / 300);
-    orcidImg.style.height = `${2 * CM}px`;
-    orcidImg.style.width = 'auto';
-    orcidImg.style.display = 'block';
-
-    const orcidLink = badgeLink('https://orcid.org/0000-0001-7288-4966');
-    orcidLink.style.marginLeft = `${5 * CM}px`;
-    orcidLink.appendChild(orcidImg);
-    videoBadge.appendChild(orcidLink);
-
-    const spacer = document.createElement('div');
-    spacer.style.height = `${3 * CM}px`;
-    document.body.appendChild(spacer);
-
-    const count = 3;
-    const images = [];
-    const sections = [];
-    const labels = [];
-    const scrollers = [];
-    const imageFiles = ['Images/egu.png', 'Images/poster.jpg', 'Images/weatherballon.jpeg'];
-
-    const labelsLeft = ['<strong>PhD Student</strong> at the University of Leeds. \n \n <strong>Masters in Physics</strong> from the University of St Andrews', '<strong>Published Papers</strong>', '<strong>Outreach</strong>'];
-    const linkCss = `
-      .paper-link, .paper-link:link, .paper-link:visited,
-      .paper-link:hover, .paper-link:active, .paper-link:focus {
-        color: inherit;
-        font: inherit;
-        text-decoration: none;
-      }
-    `;
-    const paperStyle = document.createElement('style');
-    paperStyle.textContent = linkCss;
-    document.head.appendChild(paperStyle);
-
-    function paper(doi, title) {
-      return `<a class="paper-link" href="https://doi.org/${doi}" target="_blank" rel="noopener noreferrer">${title}</a>`;
-    }
-
-    function link(url, text) {
-      return `<a class="paper-link" href="${url}" target="_blank" rel="noopener noreferrer">${text}</a>`;
-    }
-
-    const labelsRight = ['Title of thesis: <strong>The drivers, trends and dynamics of cold spells in the Northern Hemisphere.</strong>', '<strong>First Author </strong>\n' + paper('10.1029/2026gl122704', 'Drivers of Trends in Northern Hemisphere Cold Spell Characteristics Over 1980\-2025') + ', Geophysical Research Letters, 2026. \n\n ' + paper('10.5194/wcd-6-1221-2025', 'A Methodology for Tracking Cold Spells in Space and Time: Development, Evaluation and Applications') + ', Weather and Climate Dynamics, 2025. \n \n <strong>Other Collaborations</strong> \n' + paper('10.1038/s41567-025-02893-x', 'Emergent exchange-driven giant magnetoelastic coupling in a correlated itinerant ferromagnet') + ', Nature Physics, 2025. \n\n ' + paper('10.1038/s41535-024-00645-3', 'Spin-orbit coupling induced Van Hove singularity in proximity to a Lifshitz transition in Sr4Ru3O10') + ', npj Quantum Materials,2024. \n\n ' + paper('10.1103/PhysRevB.107.045107', 'Nature of quasiparticle interference in three dimensions') + ', Physical Review B, 2023.', 'Written an ' + link('https://theconversation.com/why-winter-cold-spells-are-getting-milder-288038', 'article for The Conversation') + ', which has been read by over 10,000 people. \n \n Worked on a ' + link('https://www.whitestuff.com/life-stuff-style/episode-28?refco=HP_LSSBanner&amp;refse=READ_MORE_CTA', 'cloudspotting campaign with the White Stuff') + '. \n \n Made ' + link('https://lnkd.in/p/eGgarBqF', 'outreach videos with the National Center for Atmospheric Science') + '.'];
-
-    const labelsRightScroll = [false, true, false];
-
-    for (let i = 0; i < count; i++) {
-      const wrapper = document.createElement('div');
-      wrapper.style.position = 'fixed';
-      wrapper.style.top = '50%';
-      wrapper.style.left = '50%';
-      wrapper.style.opacity = '0';
-      wrapper.style.zIndex = '1';
-      wrapper.style.pointerEvents = 'none';
-      wrapper.style.display = 'block';
-
-      const img = document.createElement('img');
-      img.src = imageFiles[i];
-      img.style.aspectRatio = '1 / 1';
-      img.style.objectFit = 'cover';
-      img.style.display = 'block';
-      wrapper.appendChild(img);
-
-      const sideLabels = [];
-      const scrollPanels = [];
-
-      if (labelsLeft[i]) {
-        const label = document.createElement('div');
-        label.innerHTML = labelsLeft[i];
-        label.dataset.side = 'left';
-        label.style.fontFamily = "'Times New Roman', Times, serif";
-        label.style.color = 'black';
-        label.style.whiteSpace = 'pre-line';
-        wrapper.appendChild(label);
-        sideLabels.push(label);
+        const crop = Math.abs(parseFloat(getComputedStyle(video).marginTop)) || 0;
+        frame.style.height = Math.max(0, video.offsetHeight - crop) + 'px';
       }
 
-      if (labelsRight[i]) {
-        const label = document.createElement('div');
-        label.dataset.side = 'right';
-        label.style.fontFamily = "'Times New Roman', Times, serif";
-        label.style.color = 'black';
-        label.style.overflow = 'hidden';
-
-        const inner = document.createElement('div');
-        inner.innerHTML = labelsRight[i];
-        inner.style.whiteSpace = 'pre-line';
-        label.appendChild(inner);
-
-        wrapper.appendChild(label);
-        sideLabels.push(label);
-
-        if (labelsRight[i].includes('paper-link')) {
-          label.style.pointerEvents = 'auto';
-        }
-
-        if (labelsRightScroll[i]) {
-          scrollPanels.push({ window: label, content: inner });
-        }
-      }
-
-      document.body.appendChild(wrapper);
-      images.push(wrapper);
-      labels.push(sideLabels);
-      scrollers.push(scrollPanels);
-
-      const section = document.createElement('div');
-      section.style.height = '100vh';
-      document.body.appendChild(section);
-      sections.push(section);
-    }
-
-    document.body.appendChild(videoBadge);
-
-    const badgeSpacer = document.createElement('div');
-    badgeSpacer.style.height = `${5 * CM}px`;
-    document.body.appendChild(badgeSpacer);
-
-    function fade(distance, leaving) {
-      if (distance <= CM) return 1;
-      const viewportHeight = window.viewportHeight();
-      let reach = viewportHeight * 0.5;
-      if (window.isNarrow()) {
-        reach = leaving ? viewportHeight * 0.35 : viewportHeight * 1.15;
-      }
-      const range = Math.max(1, reach - CM);
-      const t = Math.min(1, (distance - CM) / range);
-      return 1 - (t * t * (3 - 2 * t));
-    }
-
-    let lastNarrow = null;
-
-    function layout(narrow) {
-      if (narrow === lastNarrow) return;
-      lastNarrow = narrow;
-
-      images.forEach(wrapper => {
-        wrapper.style.width = narrow ? '100%' : '';
-        wrapper.style.left = narrow ? '0' : '50%';
-        const img = wrapper.firstChild;
-        img.style.marginLeft = narrow ? 'auto' : '0';
-        img.style.marginRight = narrow ? 'auto' : '0';
-      });
-
-      labels.forEach(sideLabels => {
-        sideLabels.forEach(label => {
-          const right = label.dataset.side === 'right';
-          label.style.left = 'auto';
-          label.style.right = 'auto';
-
-          if (narrow) {
-            label.style.position = 'static';
-            label.style.top = 'auto';
-            label.style.transform = 'none';
-            label.style.width = `calc(100vw - ${2 * CM}px)`;
-            label.style.maxWidth = '32em';
-            label.style.margin = `${1.2 * CM}px auto 0`;
-            label.style.textAlign = 'center';
-            label.style.fontSize = `min(${32 * SCALE}px, 5vw)`;
-          } else {
-            label.style.position = 'absolute';
-            label.style.top = '50%';
-            label.style.transform = 'translate(0, -50%)';
-            label.style.margin = '0';
-            label.style.width = `min(${(right ? 15 : 10) * CM}px, calc(100vw - ${2 * CM}px))`;
-            label.style.maxWidth = 'none';
-            label.style.textAlign = 'left';
-            label.style.fontSize = `${32 * SCALE}px`;
-            label.style[right ? 'left' : 'right'] = `calc(100% + ${(right ? 1 : 3) * CM}px)`;
-          }
-
-          const inner = label.firstElementChild;
-          if (inner) inner.style.textAlign = label.style.textAlign;
-        });
-      });
-
-      const vw = window.innerWidth;
-      const logoHeight = narrow ? Math.min(1.1 * CM, vw * 0.045) : 3 * CM;
-      const badgeGap = narrow ? Math.min(0.8 * CM, vw * 0.05) : 5 * CM;
-      const badgePad = narrow ? Math.min(1 * CM, vw * 0.05) : 2 * CM;
-      const orcidHeight = narrow ? logoHeight : 2 * CM;
-
-      function sizeLogo(img, height) {
-        img.style.height = `${height}px`;
-        img.style.width = narrow
-          ? `${height * Number(img.dataset.ratio)}px`
-          : 'auto';
-      }
-
-      leadSpacer.style.height = narrow ? `${5 * CM}px` : '0px';
-
-      videoBadge.style.marginTop = narrow ? `${6 * CM}px` : `${3 * CM}px`;
-      badgeSpacer.style.height = narrow ? `${1.5 * CM}px` : `${5 * CM}px`;
-      videoBadge.style.flexWrap = 'nowrap';
-      videoBadge.style.marginLeft = `${badgePad}px`;
-      videoBadge.style.marginRight = `${badgePad}px`;
-      badgeText.style.marginLeft = narrow ? `${0.3 * CM}px` : `${0.5 * CM}px`;
-      badgeText.style.fontSize = narrow
-        ? `min(${29 * SCALE}px, ${vw * 0.052}px)`
-        : `${60 * SCALE}px`;
-      sizeLogo(badgeImg, logoHeight);
-      sizeLogo(inbugImg, logoHeight);
-      sizeLogo(orcidImg, orcidHeight);
-      linkedinLink.style.marginLeft = `${badgeGap}px`;
-      orcidLink.style.marginLeft = `${badgeGap}px`;
-      caption.style.fontSize = `min(${250 * SCALE}px, ${narrow ? 8 : 7}vw)`;
-
-      if (video.dataset.fit !== (narrow ? 'phone' : 'wide')) {
-        video.dataset.fit = narrow ? 'phone' : 'wide';
-        video.style.width = narrow ? 'auto' : '100%';
-        video.style.maxWidth = narrow ? '100%' : 'none';
-        video.style.maxHeight = narrow ? '80vh' : 'none';
-        video.style.marginLeft = 'auto';
-        video.style.marginRight = 'auto';
-        cropVideo();
-      }
-    }
-
-    function update() {
-      const viewportHeight = window.viewportHeight();
-      const viewportCenter = viewportHeight / 2;
-      const narrow = window.isNarrow();
-      layout(narrow);
-      const size = narrow
-        ? Math.min(12 * CM, window.innerWidth * 0.68, viewportHeight * 0.42)
-        : 12 * CM;
-      const panelHeight = narrow
-        ? Math.max(size, viewportHeight * 0.9 - size - 50)
-        : size;
-
-      images.forEach(wrapper => {
-        wrapper.firstChild.style.width = size + 'px';
-        wrapper.firstChild.style.height = size + 'px';
-      });
-
-      scrollers.forEach(panels => {
-        panels.forEach(panel => {
-          panel.window.style.height = panelHeight + 'px';
-        });
-      });
-
-      const overflows = scrollers.map(panels => {
-        let largest = 0;
-        panels.forEach(panel => {
-          largest = Math.max(largest, panel.content.scrollHeight - panel.window.clientHeight);
-        });
-        return Math.max(0, largest);
-      });
-
-      const plainHeight = narrow
-        ? Math.round(viewportHeight * 1.25)
-        : viewportHeight;
-      const readFactor = narrow ? 4 : 1;
-
-      const shiftX = narrow ? 0 : -50;
-
-      overflows.forEach((overflow, i) => {
-        const holds = scrollers[i].length > 0 && overflow > 0;
-        const scrollDistance = holds ? overflow * readFactor : 0;
-        const wanted = holds
-          ? viewportHeight + '+' + scrollDistance
-          : 'plain+' + plainHeight;
-        if (sections[i].dataset.hold === wanted) return;
-        sections[i].dataset.hold = wanted;
-        sections[i].style.height = holds
-          ? viewportHeight + scrollDistance + 'px'
-          : plainHeight + 'px';
-      });
-
-      const videoClear = narrow
-        ? videoFrame.getBoundingClientRect().bottom
-        : -Infinity;
-
-      sections.forEach((s, i) => {
-        const rect = s.getBoundingClientRect();
-        const offset = rect.top + rect.height / 2 - viewportCenter;
-        const overflow = overflows[i];
-
-        if (overflow > 0) {
-          const scrollDistance = overflow * readFactor;
-          const sweep = viewportHeight + rect.height;
-          const travel = Math.max(0, (sweep - scrollDistance) / 2);
-          const holdStartTop = viewportHeight - travel;
-          const holdEndTop = holdStartTop - scrollDistance;
-
-          if (rect.top >= holdStartTop) {
-            const d = rect.top - holdStartTop;
-            images[i].style.transform = `translate(${shiftX}%, calc(-50% + ${d * 0.5}px))`;
-            images[i].style.opacity = fade(d, false);
-          } else if (rect.top <= holdEndTop) {
-            const d = holdEndTop - rect.top;
-            images[i].style.transform = `translate(${shiftX}%, calc(-50% + ${-d * 0.5}px))`;
-            images[i].style.opacity = fade(d, true);
-          } else {
-            images[i].style.transform = `translate(${shiftX}%, -50%)`;
-            images[i].style.opacity = 1;
-          }
-
-          const progress = Math.min(1, Math.max(0, (holdStartTop - rect.top) / scrollDistance));
-          scrollers[i].forEach(panel => {
-            panel.content.style.transform = `translateY(${-(overflow * progress)}px)`;
-          });
-        } else {
-          images[i].style.transform = `translate(${shiftX}%, calc(-50% + ${offset * 0.5}px))`;
-          images[i].style.opacity = fade(Math.abs(offset), offset < 0);
-        }
-
-        if (i === 0 && videoClear > -5 * CM) {
-          images[i].style.opacity = '0';
-        }
-
-        if (narrow) return;
-
-        labels[i].forEach(label => {
-          label.style.transform = 'translate(0, -50%)';
-          const box = label.getBoundingClientRect();
-          let shift = 0;
-          if (box.left < CM) {
-            shift = CM - box.left;
-          } else if (box.right > window.innerWidth - CM) {
-            shift = window.innerWidth - CM - box.right;
-          }
-          if (shift !== 0) {
-            label.style.transform = `translate(${shift}px, -50%)`;
-          }
-        });
-      });
-    }
-
-    window.addEventListener('scroll', update);
-    window.addEventListener('resize', () => {
-      lastNarrow = null;
+      video.addEventListener('loadedmetadata', cropVideo);
+      window.addEventListener('resize', cropVideo);
       cropVideo();
-      update();
-    });
-    update();
-  })();
+
+      const gallery = document.querySelector('.gallery');
+      Gallery.init({
+        items: gallery.querySelectorAll('.gallery__item'),
+        tracks: gallery.querySelectorAll('.gallery__track'),
+        flowOnMobile: true
+      });
+    })();
   </script>
 </body>
 </html>

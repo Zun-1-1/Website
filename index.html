@@ -4,178 +4,130 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Osmolska</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .hero {
+      position: relative;
+    }
+
+    .hero__img {
+      width: 100%;
+    }
+
+    .ask {
+      margin-top: calc(6 * var(--cm));
+      padding-bottom: calc(6 * var(--cm));
+      text-align: center;
+    }
+
+    .ask__title {
+      margin: 0 calc(1 * var(--cm));
+      font-size: 5rem;
+      font-weight: normal;
+    }
+
+    .ask__choices {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: calc(4 * var(--cm));
+      margin-top: calc(2 * var(--cm));
+    }
+
+    .ask__or {
+      font-size: 3rem;
+    }
+
+    .ask__link {
+      padding: 10px 30px;
+      border: 0;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.7);
+      color: #000;
+      font: inherit;
+      font-size: 3rem;
+      white-space: nowrap;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    @media (max-width: 700px), (max-height: 520px) {
+
+      body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      .hero {
+        flex: 1;
+        overflow: hidden;
+        min-height: 160px;
+      }
+
+      .hero__img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: calc(100% + 10 * var(--cm));
+        height: 100%;
+        margin-left: calc(-9 * var(--cm));
+        object-fit: cover;
+        object-position: center;
+      }
+
+      .ask {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        z-index: 1;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        transform: translateY(-50%);
+      }
+
+      .ask__title {
+        font-size: 11vw;
+        font-weight: bold;
+        color: #fff;
+      }
+
+      .ask__choices {
+        gap: calc(0.7 * var(--cm));
+      }
+
+      .ask__or {
+        color: #fff;
+        font-size: 5.8vw;
+      }
+
+      .ask__link {
+        padding: 7px 12px;
+        border-radius: 14px;
+        font-size: 5.8vw;
+      }
+    }
+  </style>
 </head>
 <body>
-  <script>
-    document.body.style.margin = '0';
-  </script>
+  <header class="banner">
+    <a class="banner__title" href="index.html">Osmolska</a>
+  </header>
 
-  <script src="banner.js"></script>
+  <main class="hero">
+    <img class="hero__img" src="Images/Presentation.png"
+         alt="A collage of the work behind Osmolska">
 
-  <script>
-    document.documentElement.style.overflowX = 'hidden';
-
-    const img = document.createElement('img');
-    img.src = 'Images/Presentation.png';
-    img.alt = 'Flowers';
-    img.style.display = 'block';
-    img.style.width = '100%';
-
-    const container = document.createElement('div');
-    container.style.position = 'relative';
-    window.keepClearOfBanner(container);
-
-    const buttonsToSize = [];
-
-    function makeButton(label, href) {
-      const btn = document.createElement('button');
-      btn.textContent = label;
-      btn.addEventListener('click', () => { window.location.href = href; });
-      btn.style.fontFamily = "'Times New Roman', Times, serif";
-      btn.style.color = 'black';
-      btn.style.backgroundColor = 'rgba(255, 255, 255, 0.7)';
-      btn.style.border = 'none';
-      btn.style.borderRadius = '20px';
-      btn.style.whiteSpace = 'nowrap';
-      btn.style.cursor = 'pointer';
-      buttonsToSize.push(btn);
-      return btn;
-    }
-
-    const bottom = document.createElement('div');
-    bottom.style.marginTop = '6cm'; 
-    bottom.style.textAlign = 'center';
-    bottom.style.paddingBottom = '6cm';
-
-    const question = document.createElement('h2');
-    question.style.fontFamily = "'Times New Roman', Times, serif";
-    question.style.fontWeight = 'normal';
-    question.style.margin = '0 1cm';
-
-    // inline-block so the span shrink-wraps to the rendered width of the
-    // text (even when the text wraps onto two lines) - that width is what
-    // the button row is matched to.
-    const questionText = document.createElement('span');
-    questionText.style.display = 'inline-block';
-    questionText.textContent = 'Are you here for';
-    question.appendChild(questionText);
-
-    const buttons = document.createElement('div');
-    buttons.style.position = 'static';
-    buttons.style.display = 'flex';
-    buttons.style.alignItems = 'center';
-
-    buttons.appendChild(makeButton('the Science', 'science.html'));
-
-    const orText = document.createElement('span');
-    orText.textContent = 'or';
-    orText.style.fontFamily = "'Times New Roman', Times, serif";
-    orText.style.color = 'black';
-    buttons.appendChild(orText);
-
-    function layoutButtons() {
-      const narrow = window.isNarrow();
-      const CM = window.CM;
-
-      if (buttons.parentElement !== bottom) bottom.appendChild(buttons);
-
-      buttons.style.position = 'static';
-      buttons.style.marginTop = `${2 * CM}px`;
-
-      buttons.style.flexDirection = 'row';
-      buttons.style.justifyContent = 'center';
-      buttons.style.gap = narrow ? `${0.7 * CM}px` : '4cm';
-
-      buttonsToSize.forEach(btn => {
-        btn.style.padding = narrow ? '7px 12px' : '10px 30px';
-        btn.style.fontSize = narrow ? '5.8vw' : '3rem';
-        btn.style.borderRadius = narrow ? '14px' : '20px';
-      });
-
-      orText.style.fontSize = narrow ? '5.8vw' : '3rem';
-      orText.style.color = narrow ? 'white' : 'black';
-      question.style.fontSize = narrow ? '11vw' : '5rem';
-      question.style.fontWeight = narrow ? 'bold' : 'normal';
-      question.style.color = narrow ? 'white' : 'black';
-    }
-
-    function layoutImage() {
-      const narrow = window.isNarrow();
-
-      if (narrow) {
-
-        const reveal = 4 * CM;
-
-        img.style.height = Math.max(160,
-          Math.round(window.viewportHeight() - window.bannerHeight())) + 'px';
-        img.style.objectFit = 'cover';
-        img.style.objectPosition = 'center';
-        img.style.width = `calc(100% + ${10 * CM}px)`;
-        img.style.marginLeft = `-${5 * CM + reveal}px`;
-        img.style.transform = 'none';
-        img.style.transformOrigin = '50% 50%';
-        container.style.overflow = 'hidden';
-      } else {
-        img.style.width = '100%';
-        img.style.height = 'auto';
-        img.style.objectFit = 'fill';
-        img.style.marginLeft = '0px';
-        img.style.transform = 'none';
-        container.style.overflow = 'visible';
-      }
-    }
-
-    function layoutBottom() {
-      if (!window.isNarrow()) {
-        bottom.style.position = 'static';
-        bottom.style.top = 'auto';
-        bottom.style.left = 'auto';
-        bottom.style.width = 'auto';
-        bottom.style.transform = 'none';
-        bottom.style.zIndex = 'auto';
-        bottom.style.marginTop = '6cm';
-        bottom.style.paddingBottom = '6cm';
-        return;
-      }
-
-      bottom.style.position = 'absolute';
-      bottom.style.left = '0px';
-      bottom.style.width = '100%';
-      bottom.style.marginTop = '0px';
-      bottom.style.paddingBottom = '0px';
-      bottom.style.zIndex = '1';
-      bottom.style.transform = 'translateY(-50%)';
-      bottom.style.top = Math.round(
-        container.offsetTop + container.offsetHeight / 2) + 'px';
-    }
-
-    buttons.appendChild(makeButton('the Art?', 'art.html'));
-    bottom.appendChild(question);
-
-    window.addEventListener('resize', () => {
-      layoutButtons();
-      layoutImage();
-      layoutBottom();
-    });
-
-    window.addEventListener('load', () => {
-      layoutImage();
-      layoutBottom();
-    });
-
-    img.addEventListener('load', () => {
-      layoutImage();
-      layoutBottom();
-    });
-
-    layoutButtons();
-    layoutImage();
-    layoutBottom();
-
-    container.appendChild(img);
-
-    document.body.appendChild(container);
-    document.body.appendChild(bottom);
-  </script>
+    <div class="ask">
+      <h2 class="ask__title">Are you here for</h2>
+      <div class="ask__choices">
+        <a class="ask__link" href="science.html">the Science</a>
+        <span class="ask__or">or</span>
+        <a class="ask__link" href="art.html">the Art?</a>
+      </div>
+    </div>
+  </main>
 </body>
 </html>
