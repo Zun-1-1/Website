@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PhD Works</title>
+  <link rel="stylesheet" href="style.css">
+    <style>
+
+    .plain-link:not(.prose__back) {
+      text-decoration: underline;
+    }
+
+    .prose > p,
+    .split p {
+      text-align: justify;
+      hyphens: auto;
+    }
+
+    .outlinks {
+      margin: calc(3 * var(--cm)) 0;
+      text-align: center;
+    }
+
+
+
+  </style>
+</head>
+
+<body>
+  <header class="banner">
+    <a class="banner__title" href="index.html">Osmolska</a>
+
+    <nav class="banner__nav" aria-label="Main">
+      <a class="banner__link" href="index.html">Home</a>
+      <a class="banner__link" href="science.html">Science</a>
+      <a class="banner__link" href="art.html">Art</a>
+    </nav>
+  </header>
+
+  <main class="prose">
+    <h1 class="prose__title">PhD Work</h1>
+    <p>My PhD work considers cold spell events in the Northern Hemisphere. These extreme weather events occur when the temperature drops significantly below the expected average for extended periods of time. During cold spells days the temperature can drop below freezing, leading to icy severe conditions. The most recent and well known cold spell in the UK was named '<a class="plain-link" href="https://www.theguardian.com/uk-news/2018/mar/03/freezing-weather-storm-emma-cost-uk-economy-1-billion-pounds-a-day" target="_blank" rel="noopener noreferrer">The Beast from the East</a>', and cost the UK economy billions of pounds. As it swept through, the cold spell caused damage to the agriculture, lead to transport delays and exacerbated underlying health conditions. </p>
+    <div class="split">
+      <img class="split__figure" src="Images/jet_unchanged.png"
+           alt="The polar jet as a continuous barrier, holding cold polar air away from the warmer air to the south">
+      <p>The reason for these temperature drops is usually linked to the polar jet (see solid blue lines on the figure opposite), which describes the strong westerly winds in the upper troposphere. The polar jet can be thought of as a barrier, seperating the cold polar air (blue shading) from the warmer tropical air.  </p>
+    </div>
+
+    <div class="split split--reverse">
+      <img class="split__figure" src="Images/jet_changed.png"
+           alt="A weakened polar jet with gaps in it, letting cold Arctic air spill south into lower latitudes">
+      <p>When the polar jet weakens (see opposite figure), cold air is transported out of the Arctic into lower latitude, through the 'tounges' of the polar jet.</p>
+    </div>
+    
+    <div class="split split--stack">
+      <div class="split__figures">
+        <img class="split__figure" src="Images/Drivers2.png"
+             alt="Hand-drawn diagram of an atmospheric circulation pattern that influences the polar jet">
+        <img class="split__figure" src="Images/Drivers.png"
+             alt="Hand-drawn diagram of a mode of variability that influences the polar jet">
+      </div>
+      <p>The position of the polar jet is influenced by many atmospheric circulation anomalies and other modes of variabilities. Some of which are illustrated in the (hand-drawn) pictures on the left hand side. This includes for example the weakening of the stratospheric polar vortex. </p>
+    </div>
+
+    <div class="split split--reverse">
+      <img class="split__figure" src="Images/coding.png"
+           alt="A weakened polar jet with gaps in it, letting cold Arctic air spill south into lower latitudes">
+      <p>My PhD involved developing a methodology that tracked these cold spells in space and time. Once I catalogued all these cold spells, I then investigated how these cold spells changed in a warming climate and the atmospheric circulation patterns and physical processes that lead to these events.</p>
+    </div>
+
+    <div class="outlinks">
+      <div class="outlinks__item">
+        <p>The paper describing this tracking methodology can be found here:</p>
+        <a class="link-button" href="https://doi.org/10.5194/wcd-6-1221-2025" target="_blank" rel="noopener noreferrer">Read the paper</a>
+      </div>
+
+      <div class="outlinks__item">
+        <p>The Conversation article I wrote describing how cold spell events have changed due to climate change can be found here:</p>
+        <a class="link-button" href="https://theconversation.com/why-winter-cold-spells-are-getting-milder-288038" target="_blank" rel="noopener noreferrer">Read the article</a>
+      </div>
+
+      <div class="outlinks__item">
+        <p>And hopefully I will attach my final thesis at some stage here:</p>
+        <a class="link-button" href="thesis.html">Final thesis</a>
+      </div>
+    </div>
+
+  </main>
+</body>
+</html>
